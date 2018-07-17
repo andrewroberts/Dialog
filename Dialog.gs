@@ -12,7 +12,7 @@
 // Library Key: MWPmswuaTtvxxYA71VTxu7B8_L47d2MW6
 
 /*
- * Copyright (C) 2015 Andrew Roberts
+ * Copyright (C) 2015-2018 Andrew Roberts
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -33,7 +33,6 @@
 // The function to use for logging. Let the script using the library 
 // manage that, it'll need these methods
 var Log_ = {
-
   init: function() {},
   finer: function() {},
   finest: function() {},
@@ -56,10 +55,8 @@ var DIALOG_WIDTH = 300;
  */
  
 function init(logLibrary) {
-
   Log_ = logLibrary;
-  Log_.finest();
-  
+  Log_.finest(); 
 } // init()
 
 /**
@@ -110,8 +107,16 @@ function show(title, message, height, width, buttons) {
   var ui;
   
   if (SpreadsheetApp.getActiveSpreadsheet()) {
+  
+    try {
 
-    ui = SpreadsheetApp.getUi();
+      ui = SpreadsheetApp.getUi();
+      
+    } catch (error) {
+    
+      Log_.warning('Dialog: No UI available. title: ' + title + ', message: ' + message);
+      return;
+    }
 
     if (buttons) {
 
@@ -135,8 +140,7 @@ function show(title, message, height, width, buttons) {
   // Private Functions
   // -----------------
 
-  function setDefault(value, defaultValue) {
-  
+  function setDefault(value, defaultValue) {  
     return (typeof value !== 'undefined') ? value : defaultValue;
   }
   
