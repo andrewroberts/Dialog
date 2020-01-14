@@ -106,18 +106,10 @@ function show(title, message, height, width, buttons) {
   var response = null;
   var ui;
   
-  if (SpreadsheetApp.getActiveSpreadsheet()) {
+  if (gotActiveDoc()) {
   
-    try {
-
-      ui = SpreadsheetApp.getUi();
-      
-    } catch (error) {
-    
-      Log_.warning('Dialog: No UI available. title: ' + title + ', message: ' + message);
-      return;
-    }
-
+    ui = getUi();
+  
     if (buttons) {
 
       Log_.info('Waiting for response from user');
@@ -140,8 +132,36 @@ function show(title, message, height, width, buttons) {
   // Private Functions
   // -----------------
 
+  function gotActiveDoc() {    
+    return DocumentApp.getActiveDocument() || SpreadsheetApp.getActive()
+  }
+
+  function getUi() {
+  
+    var ui
+  
+    try {
+    
+      ui = SpreadsheetApp.getUi();
+      
+    } catch (error) {
+    
+      try {
+    
+        ui = DocumentApp.getUi();
+        
+      } catch (error) {
+      
+        Log_.warning('Dialog: No UI available. title: ' + title + ', message: ' + message);
+        return
+      }
+    }
+    
+    return ui
+  }
+
   function setDefault(value, defaultValue) {  
-    return (typeof value !== 'undefined') ? value : defaultValue;
+    return (value === undefined) ? defaultValue : value;
   }
   
 } // show()
