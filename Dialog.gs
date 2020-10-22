@@ -55,9 +55,9 @@ var DIALOG_WIDTH = 300;
  */
  
 function init(logLibrary) {
-  Log_ = logLibrary;
+  if (logLibrary) Log_ = logLibrary;
   Log_.finest(); 
-} // init()
+}
 
 /**
  * Alert or prompt the user. If no response is required from the user
