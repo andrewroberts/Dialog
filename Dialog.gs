@@ -44,7 +44,7 @@ var Log_ = {
 // --------------
 
 var DIALOG_HEIGHT = 100;
-var DIALOG_WIDTH = 300;
+var DIALOG_WIDTH = 400;
 
 /**
  * Initialise the library.
@@ -56,7 +56,6 @@ var DIALOG_WIDTH = 300;
  
 function init(logLibrary) {
   if (logLibrary) Log_ = logLibrary;
-  Log_.finest(); 
 }
 
 /**
@@ -81,12 +80,10 @@ function init(logLibrary) {
 
 function show(title, message, height, width, buttons) {
 
-  Log_.finest();
-  
   title = setDefault(title, '');
   message = setDefault(message, '');
-  height = setDefault(height, DIALOG_HEIGHT);
   width = setDefault(width, DIALOG_WIDTH);  
+  height = getHeight();
   buttons = setDefault(buttons, null);
 
   // TODO - Dynamically work out the dialog height.
@@ -131,6 +128,15 @@ function show(title, message, height, width, buttons) {
 
   // Private Functions
   // -----------------
+
+  function getHeight() {
+    if (height === undefined) {
+      var numberOfChars = message.length
+      var charsPerLine = width / 10
+      height = ((numberOfChars / charsPerLine) + 2) * 20
+    }
+    return height
+  }
 
   function gotActiveDoc() {    
     return DocumentApp.getActiveDocument() || SpreadsheetApp.getActive()
