@@ -133,7 +133,7 @@ function show(title, message, height, width, buttons) {
     if (height === undefined) {
       var numberOfChars = message.length
       var charsPerLine = width / 10
-      height = ((numberOfChars / charsPerLine) + 2) * 20
+      height = ((numberOfChars / charsPerLine) + 2) * 22
     }
     return height
   }
